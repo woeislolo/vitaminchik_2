@@ -1,0 +1,25 @@
+{% extends 'base.html.j2' %}
+
+{% block body %}
+
+<form method='POST' action='/result'>
+    <div>
+    <p>Введите съеденные продукты через пробел<br>
+    <p><input name='food' type='TEXT' autocomplete="off" required></p>
+
+    <p>Выберите БАД, которые вы принимаете: <br>
+        <input type="checkbox" name="suppl" value="no"> не принимаю <br>
+        <input type="checkbox" name="suppl" value="komplivit"> Компливит (ОТС Фарм) <br>
+        <input type="checkbox" name="suppl" value="CaD3"> CaD3 (Мелиген) <br>
+        <input type="checkbox" name="suppl" value="askorbinka"> Аскорбиновая кислота <br>
+        <input type="checkbox" name="suppl" value="B12"> B12 <br>
+        <input type="checkbox" name="suppl" value="lutein_forte"> Лютеин Форте <br>
+        <input type="checkbox" name="suppl" value="haas"> Витамин С (Haas) <br>
+        <input type="checkbox" name="suppl" value="fish_fat"> Рыбий жир <br></p>
+    </div>
+
+    <p><input value='Отправить' type='SUBMIT'></p> 
+    
+</form>
+
+{% endblock %}
