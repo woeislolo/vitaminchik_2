@@ -18,18 +18,21 @@ def data() -> 'html':
     food = request.form['food']
     suppl = request.form.getlist('suppl')
 
-    not_found, lack, resource_of_lack = nutrition(food, suppl)
+    not_found, lack, resource_of_lack, protein, fat, carbs, calorii = nutrition(food, suppl)
 
     resource = []
     for k, v in resource_of_lack.items():
         v = ', '.join(v)
         resource.append(f'{k}: {v}.')
 
-
     return render_template('results.html.j2', 
                             not_found=not_found,
                             lack=lack,
-                            resource=resource)
+                            resource=resource,
+                            protein=protein,
+                            fat=fat, 
+                            carbs=carbs,
+                            kkal=calorii)
 
 @app.errorhandler(Exception) 
 def handle_exception(error) -> 'html':
@@ -38,4 +41,4 @@ def handle_exception(error) -> 'html':
         return entry_page()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='127.0.0.1')

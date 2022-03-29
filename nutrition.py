@@ -1,4 +1,23 @@
-def not_found_products(food: str) -> list:
+def food_to_dict(food: str) -> dict:
+    """Считает пары продукт : кол-во"""
+    food_dict = {}
+    for product in [product.lower() for product in food.split()]:
+        if product[-1].isdigit():
+            product, _, amount = product.rpartition('_')
+            amount = float(amount)
+            if product in food_dict:
+                food_dict[product] += amount
+            else:
+                food_dict[product] = amount
+        else:
+            if product in food_dict:
+                food_dict[product] += 1
+            else:
+                food_dict[product] = 1
+    return food_dict
+
+def not_found_products(food: dict) -> list:
+    """Проверяет наличие продукта в БД"""
 
     all_products = {'кофе', 'тыквенные_семечки', 'чечевица', 'мандарин', 'горох', 'морская_капуста', 'гранат', 'арахис', 
                     'крабовое_мясо', 'лук_зеленый', 'слива', 'гречка', 'кинза', 'сосиска', 'молоко', 'салат_листовой', 
@@ -16,9 +35,10 @@ def not_found_products(food: str) -> list:
                     'кокосовая_стружка', 'укроп', 'сгущенка', 'маринованный_огурец', 'слоеное_тесто', 'печенье',
                     'крыжовник', 'фунчоза', 'черная_смородина', 'курага', 'черника', 'чипсы', 'сидр', 'пиво',
                     'кокосовое_молоко', 'сыр_плавленый', 'рисовая_лапша', 'угорь', 'кальмар', 'манка', 'стручковая_фасоль',
-                    'горчица', 'ананас', 'лимон', 'вишня', 'ветчина', 'брынза', 'кокосовое_молоко', 'пшеничная_мука'}
-
-    not_found = [product for product in food_to_dict(food).keys() if product not in all_products]
+                    'горчица', 'ананас', 'лимон', 'вишня', 'ветчина', 'брынза', 'кокосовое_молоко', 'пшеничная_мука',
+                    'маскарпоне', }
+    
+    not_found = [product for product in food.keys() if product not in all_products]
     return not_found
 
 def suppl_to_dict(suppl: list) -> dict:
@@ -88,24 +108,6 @@ def suppl_to_dict(suppl: list) -> dict:
                 else:
                     suppl_dict[k] = v
     return suppl_dict
-
-def food_to_dict(food: str) -> dict:
-    """Считает пары продукт : кол-во"""
-    food_dict = {}
-    for product in [product.lower() for product in food.split()]:
-        if product[-1].isdigit():
-            product, _, amount = product.rpartition('_')
-            amount = float(amount)
-            if product in food_dict:
-                food_dict[product] += amount
-            else:
-                food_dict[product] = amount
-        else:
-            if product in food_dict:
-                food_dict[product] += 1
-            else:
-                food_dict[product] = 1
-    return food_dict
 
 def nutrient_amount(food: dict) -> dict:
 
@@ -728,7 +730,7 @@ def nutrient_amount(food: dict) -> dict:
                'угорь': 18.4, 'кальмар': 18, 'манка': 10.3, 'сосиска': 11, 'морская_капуста': 0.5,
                'чипсы': 6, 'печенье': 9.5, 'слоеное_тесто': 6.2, 'рисовая_мука': 7, 'колбаса': 21,
                'ветчина': 8, 'вишня': 0.8, 'брынза': 22.1, 'кокосовое_молоко': 0.1,
-               'пшеничная_мука': 10.8,}
+               'пшеничная_мука': 10.8, 'маскарпоне': 3.6, }
 
     fat = {'тофу': 10, 'свекла': 0.1, 'майонез': 67, 'арахис': 45.2, 'сливочное_масло': 82.5, 'творог': 9, 
            'говядина': 16, 'макароны': 1.3, 'грецкий_орех': 60.8, 'морковь': 0.1, 'яйцо': 11.5,
@@ -754,7 +756,7 @@ def nutrient_amount(food: dict) -> dict:
            'угорь': 11.7, 'кальмар': 2.2, 'манка': 1, 'сосиска': 23.9, 'морская_капуста': 0.5,
            'чипсы': 30, 'печенье': 9.5, 'слоеное_тесто': 33, 'рисовая_мука': 1, 'колбаса': 39,
            'вишня': 0.2, 'брынза': 19.2, 'кокосовое_молоко': 0.9,
-           'пшеничная_мука': 1.3,}
+           'пшеничная_мука': 1.3, 'маскарпоне': 42, }
 
     carbs = {'тофу': 1.5, 'свекла': 8.8, 'майонез': 2.3, 'арахис': 9.9, 'сливочное_масло': 0.8, 'творог': 3,
              'макароны': 70.5, 'грецкий_орех': 11.1, 'морковь': 6.9, 'яйцо': 0.7, 'молоко': 4.7, 'кофе': 1.7,
@@ -779,8 +781,7 @@ def nutrient_amount(food: dict) -> dict:
              'кокосовая_стружка': 14, 'сгущенка': 46, 'кальмар': 2, 'манка': 70.6, 'сосиска': 0.4, 
              'морская_капуста': 1.5, 'чипсы': 53, 'печенье': 72, 'слоеное_тесто': 40.9,
              'рисовая_мука': 79, 'колбаса': 1, 'ветчина': 60, 'вишня': 10.6, 'брынза': 0.4, 
-             'кокосовое_молоко': 2.7, 'пшеничная_мука': 69.9,}
-
+             'кокосовое_молоко': 2.7, 'пшеничная_мука': 69.9, 'маскарпоне': 4.6, }
 
 
 
@@ -821,15 +822,20 @@ def nutrient_amount(food: dict) -> dict:
     nutrient_dict['Жиры'] = round(sum([fat[product] * food[product] for product in food if product in fat]))
     nutrient_dict['Углеводы'] = round(sum([carbs[product] * food[product] for product in food if product in carbs]))
     
-    print(nutrient_dict)
+    # print(nutrient_dict)
 
     return nutrient_dict
 
 def nutrition(food: str, suppl: list):
-
-    not_found = not_found_products(food)
+    food_list = food_to_dict(food)
+    not_found = not_found_products(food_list)
     suppl_dict = suppl_to_dict(suppl)
     nutrient_dict = nutrient_amount(food_to_dict(food))
+
+    protein = nutrient_dict['Белки']
+    fat = nutrient_dict['Углеводы']
+    carbs = nutrient_dict['Жиры']
+    calorii = round(4.2 * nutrient_dict['Белки'] + 4.2 * nutrient_dict['Углеводы'] + 9.3 * nutrient_dict['Жиры'])
 
     for k, v in suppl_dict.items():
         nutrient_dict[k] += v
@@ -839,7 +845,7 @@ def nutrition(food: str, suppl: list):
                  'N': 30, 'PP': 10, 'Марганец': 3.8, 'Медь': 2, 'Омега3': 1100,
                  'Железо': 18, 'Калий': 2500, 'Фосфор': 1000,
                  'Кальций': 1000, 'E': 15, 'D': 5, 'A': 750, 'K': 120, 'Лютеин': 5000, 
-                 'Белки': 102, 'Жиры': 102, 'Углеводы': 51}
+                 }
 
     resource = {'Селен': ['семечки', 'хлеб_цельнозерновой', 'кета', 'сельдь', 'кунжут', 'яйцо', 'творог', 'нут', 'шампиньоны', 'фасоль'], 
                 'B9': ['маш', 'нут', 'арахис', 'арахисовая_паста', 'семечки', 'киноа', 'хлеб_белый', 'петрушка', 'кунжут', 'чечевица'], 
@@ -891,4 +897,4 @@ def nutrition(food: str, suppl: list):
     for key, value in lack.items():
         res.append(f'{key}: {value}/{nutrient_recommends[key]}')
 
-    return not_found, res, resource_of_lack
+    return not_found, res, resource_of_lack, protein, fat, carbs, calorii
