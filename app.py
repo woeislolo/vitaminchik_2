@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from werkzeug.exceptions import HTTPException
+from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError
 
 from nutrition import nutrition, resource_of_nutrients
 
@@ -18,13 +18,18 @@ def data() -> 'html':
     food = request.form['food']
     suppl = request.form.getlist('suppl')
 
-    not_found, nutrient_dict, calorii = nutrition(food, suppl)
+    nutrition_res = nutrition(food, suppl)
+    if nutrition_res == False:
+        return render_template('error.html.j2')
+    else:
+        not_found, nutrient_dict, calorii = nutrition_res
 
-    recommend_amount = {'Магний': 300, 'Цинк': 12, 'B6': 2, 'C': 120, 'P': 30, 
+    recommend_amount = {'Магний': 320, 'Цинк': 12, 'B6': 2, 'C': 120, 'P': 30, 
                         'Селен': 55, 'Йод': 150, 'B1': 1.5, 'B2': 1.8, 'B5': 5, 'B9': 200, 'B12': 2,
                         'N': 30, 'PP': 10, 'Марганец': 3.8, 'Медь': 2, 'Омега3': 1100,
                         'Железо': 18, 'Калий': 2500, 'Фосфор': 1000,
-                        'Кальций': 1000, 'E': 15, 'D': 5, 'A': 750, 'K': 120, 'Лютеин': 5000}
+                        'Кальций': 1000, 'E': 15, 'D': 5, 'A': 750, 'K': 120, 'Лютеин': 5000,
+                        'Белки': 113, 'Жиры': 51, 'Углеводы': 170, }
 
     nutrient_lack_list = []
     for k, v in recommend_amount.items():
@@ -46,9 +51,12 @@ def data() -> 'html':
 
 @app.errorhandler(Exception) 
 def handle_exception(error) -> 'html':
-    """При ошибках редиректит на главную страницу"""
-    if isinstance(error, HTTPException):
-        return entry_page()
+    if isinstance(error, BadRequest):
+        return render_template('error400.html.j2'), 400 
+    elif isinstance(error, InternalServerError):
+        return render_template('error500.html.j2'), 500
+    elif isinstance(error, HTTPException):
+        return render_template('errorhttp.html.j2')
 
 if __name__ == '__main__':
     app.run()

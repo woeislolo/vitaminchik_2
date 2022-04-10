@@ -2,39 +2,42 @@
 
 {% block body %}
 
-{% if not_found %}
-<p>Продукты, которые мы не нашли в нашем справочнике:<br><br>
-{{ ', '.join(not_found) }} 
-</p>
-{% endif %}
+<div class="mb-2">
+    {% if not_found %}
+        <p>Продукты, которые мы не нашли в нашем справочнике:<br><br>
+        {{ ', '.join(not_found) }} 
+        </p>
+    {% endif %}
 
-{# {% if not nutrient_amount %}
-<p>Ура! Вы получили все витамины и минеральные вещества!<br>
-Вы умничка! Так держать! :)</p>
-{% else %} #}
 
-<p>Следующих нутриентов может не хватать в рационе:<br>
-{# {{ ', '.join(nutrient_resource.keys()) }} </p> #}
+    {% if not nutrient_resource %}
+        <p>Ура! Вы получили все необходимые нутриенты.!<br>
+        Так держать! :)
+        </p>
+        {% else %}
 
-<ul>
-{% for k, v in nutrient_resource.items() %}
-<li> {{ k }}: {{ nutrient_dict[k] }}/{{ recommend_amount[k] }}</li>
-{% endfor %}
-</ul>
+        <p>Следующих нутриентов может не хватать в рационе:<br>
+            <ul>
+            {% for k, v in nutrient_resource.items() %}
+            <li> {{ k }}: {{ nutrient_dict[k] }}/{{ recommend_amount[k] }}</li>
+            {% endfor %}
+            </ul>
+        </p>
 
-<p> Белки: {{ protein }}/113 <br>
-Жиры: {{ fat }}/51 <br>
-Углеводы: {{ carbs }}/220 <br><br>
-Калории: {{ kkal }}/1567 <br>
-Состав рациона: овощи/фрукты (50%), белок (25%), сложные углеводы (25%) 
-</p>
+        <p> Белки: {{ protein }}/113 <br>
+        Жиры: {{ fat }}/51 <br>
+        Углеводы: {{ carbs }}/220 <br><br>
+        Калории: {{ kkal }}/1567 <br>
+        </p>
 
-<p>Ниже указаны источники, из которых их можно получить.</p>
-<ul>
-{% for k, v  in nutrient_resource.items() %}
-<li> {{ k }}: {{ ', '.join(v) }} </li>
-{% endfor %}
-</ul>
-
+        <p>Ниже указаны источники, из которых их можно получить.
+            <ul>
+            {% for k, v  in nutrient_resource.items() %}
+            <li> {{ k }}: {{ ', '.join(v) }} </li>
+            {% endfor %}
+            </ul>
+        </p>
+    {% endif %}
+</div>
 
 {% endblock %}

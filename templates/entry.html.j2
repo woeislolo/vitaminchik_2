@@ -2,24 +2,46 @@
 
 {% block body %}
 
-<form method='POST' action='/result'>
-    <div>
-    <p>Введите съеденные продукты через пробел<br>
-    <p><input name='food' type='TEXT' autocomplete="off" required></p>
-
-    <p>Выберите БАД, которые вы принимаете: <br>
-        <input type="checkbox" name="suppl" value="no"> не принимаю <br>
-        <input type="checkbox" name="suppl" value="komplivit"> Компливит (ОТС Фарм) <br>
-        <input type="checkbox" name="suppl" value="CaD3"> CaD3 (Мелиген) <br>
-        <input type="checkbox" name="suppl" value="askorbinka"> Аскорбиновая кислота <br>
-        <input type="checkbox" name="suppl" value="B12"> B12 <br>
-        <input type="checkbox" name="suppl" value="lutein_forte"> Лютеин Форте <br>
-        <input type="checkbox" name="suppl" value="haas"> Витамин С (Haas) <br>
-        <input type="checkbox" name="suppl" value="fish_fat"> Рыбий жир <br></p>
-    </div>
-
-    <p><input value='Отправить' type='SUBMIT'></p> 
-    
+<form method='POST' action='/result'>  
+    <fieldset>
+        <div class="mb-2">
+            <label for="food" class="form-label">Введите съеденные продукты через пробел</label>
+            <input name="food" id="food" type="text" autocomplete="off" required class="form-control">
+        </div>
+        <div class="form-check form-switch">
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="komplivit" id="komplivit" class="form-check-input">
+                <label class="form-check-label" for="komplivit">Компливит (ОТС Фарм)</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="CaD3" id="CaD3" class="form-check-input">
+                <label class="form-check-label" for="CaD3">CaD3 (Мелиген)</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="askorbinka" id="askorbinka" class="form-check-input">
+                <label class="form-check-label" for="askorbinka">Аскорбиновая кислота</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="B12" id="B12" class="form-check-input">
+                <label class="form-check-label" for="B12">B12</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="lutein_forte" id="lutein_forte" class="form-check-input">
+                <label class="form-check-label" for="lutein_forte">Лютеин Форте</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" value="haas" id="haas" class="form-check-input">
+                <label class="form-check-label" for="haas">Витамин С (Haas)</label>
+            </div>
+            <div class="mb-2">
+                <input type="checkbox" name="suppl" id="fish_fat" value="fish_fat" class="form-check-input">
+                <label class="form-check-label" for="fish_fat">Рыбий жир</label>
+            </div>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="btn btn-sm btn-primary">Отправить</button>
+        </div>
+    </fieldset>
 </form>
 
 {% endblock %}
