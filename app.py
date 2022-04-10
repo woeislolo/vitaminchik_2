@@ -59,4 +59,4 @@ def handle_exception(error) -> 'html':
         return render_template('errorhttp.html.j2')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='127.0.0.1')
